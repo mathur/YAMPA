@@ -23,12 +23,20 @@
     <string name="onesong">1 song</string>
     <!-- used in various places to indicate there is some number other than one songs for a given artist or album. -->
     <plurals name="Nsongs">
-        <item quantity="other"><xliff:g id="count">%d</xliff:g> songs</item>
+        <item quantity="other">
+            <xliff:g id="count">%d</xliff:g>
+            songs
+        </item>
     </plurals>
 
     <!-- shows how many songs on the album are by the selected artist, out of how many total, if those two numbers are different -->
     <plurals name="Nsongscomp">
-        <item quantity="other"><xliff:g id="count_for_artist">%2$d</xliff:g> of <xliff:g id="total_count">%1$d</xliff:g> songs</item>
+        <item quantity="other">
+            <xliff:g id="count_for_artist">%2$d</xliff:g>
+            of
+            <xliff:g id="total_count">%1$d</xliff:g>
+            songs
+        </item>
     </plurals>
 
     <!-- Used in artists list view, indicates how many albums exist for a given artist. -->
@@ -36,7 +44,10 @@
         <!-- number of albums is one -->
         <item quantity="one">1 album</item>
         <!-- number of albums is not equal to one -->
-        <item quantity="other"><xliff:g id="count">%d</xliff:g> albums</item>
+        <item quantity="other">
+            <xliff:g id="count">%d</xliff:g>
+            albums
+        </item>
     </plurals>
 
     <!--
@@ -50,9 +61,13 @@
     -->
     <skip/>
     <!-- Do not translate. Duration format for duration < 1 hour -->
-    <string translatable="false" name="durationformatshort"><xliff:g id="format">%2$d:%5$02d</xliff:g></string>
+    <string translatable="false" name="durationformatshort">
+        <xliff:g id="format">%2$d:%5$02d</xliff:g>
+    </string>
     <!-- Do not translate. Duration format for duration >= 1 hour -->
-    <string translatable="false" name="durationformatlong"><xliff:g id="format">%1$d:%3$02d:%5$02d</xliff:g></string>
+    <string translatable="false" name="durationformatlong">
+        <xliff:g id="format">%1$d:%3$02d:%5$02d</xliff:g>
+    </string>
 
     <!-- Menu item that takes the user back to the top level screen of the music player -->
     <string name="goto_start">Library</string>
@@ -69,19 +84,33 @@
     <string name="play_all">Play all</string>
 
     <!-- Delete confirmation dialog when deleting an entire artist -->
-    <string name="delete_artist_desc">Permanently delete all songs by <xliff:g id="artist">%s</xliff:g> from the SD card?</string>
+    <string name="delete_artist_desc">Permanently delete all songs by
+        <xliff:g id="artist">%s</xliff:g>
+        from the SD card?
+    </string>
     <!-- Delete confirmation dialog when deleting an entire artist -->
-    <string name="delete_artist_desc_nosdcard">Permanently delete all songs by <xliff:g id="artist">%s</xliff:g> from USB storage?</string>
+    <string name="delete_artist_desc_nosdcard">Permanently delete all songs by
+        <xliff:g id="artist">%s</xliff:g>
+        from USB storage?
+    </string>
 
     <!-- Delete confirmation dialog when deleting an entire album -->
-    <string name="delete_album_desc">Permanently delete the entire album \"<xliff:g id="album">%s</xliff:g>\" from the SD card?</string>
+    <string name="delete_album_desc">Permanently delete the entire album \"<xliff:g id="album">
+        %s</xliff:g>\" from the SD card?
+    </string>
     <!-- Delete confirmation dialog when deleting an entire album -->
-    <string name="delete_album_desc_nosdcard">Permanently delete the entire album \"<xliff:g id="album">%s</xliff:g>\" from USB storage?</string>
+    <string name="delete_album_desc_nosdcard">Permanently delete the entire album \"
+        <xliff:g id="album">%s</xliff:g>\" from USB storage?
+    </string>
 
     <!-- Delete confirmation dialog when deleting a single song -->
-    <string name="delete_song_desc">Permanently delete \"<xliff:g id="song">%s</xliff:g>\" from the SD card?</string>
+    <string name="delete_song_desc">Permanently delete \"<xliff:g id="song">%s</xliff:g>\" from the
+        SD card?
+    </string>
     <!-- Delete confirmation dialog when deleting a single song -->
-    <string name="delete_song_desc_nosdcard">Permanently delete \"<xliff:g id="song">%s</xliff:g>\" from USB storage?</string>
+    <string name="delete_song_desc_nosdcard">Permanently delete \"<xliff:g id="song">%s</xliff:g>\"
+        from USB storage?
+    </string>
 
     <!-- Delete confirmation dialog, confirmation button text -->
     <string name="delete_confirm_button_text">OK</string>
@@ -90,7 +119,10 @@
         <!-- delete confirmation message for 1 song -->
         <item quantity="one">1 song was deleted.</item>
         <!-- delete confirmation message for 0 or more than 1 songs -->
-        <item quantity="other"><xliff:g id="songs_to_delete">%d</xliff:g> songs were deleted.</item>
+        <item quantity="other">
+            <xliff:g id="songs_to_delete">%d</xliff:g>
+            songs were deleted.
+        </item>
     </plurals>
 
     <!-- shown in dialog while the media scanner is starting up -->
@@ -171,7 +203,8 @@
     <!-- label underneath icon used to indicate there was an error accessing the sd card -->
     <string name="sdcard_error_message">An error was encountered on your SD card.</string>
     <!-- label underneath icon used to indicate there was an error accessing the sd card -->
-    <string name="sdcard_error_message_nosdcard">An error was encountered on your USB storage.</string>
+    <string name="sdcard_error_message_nosdcard">An error was encountered on your USB storage.
+    </string>
     <!-- Default name of artist that doesn't have a name in the metadata -->
     <string name="unknown_artist_name">Unknown artist</string>
     <!-- Default name of album that doesn't have a name in the metadata -->
@@ -191,7 +224,9 @@
     <!-- Menu item -->
     <string name="ringtone_menu_short">Use as ringtone</string>
     <!-- Toast after setting a song as phone ringtone -->
-    <string name="ringtone_set">\"<xliff:g id="name" example="Alarm Bell">%s</xliff:g>\" set as phone ringtone.</string>
+    <string name="ringtone_set">\"<xliff:g id="name" example="Alarm Bell">%s</xliff:g>\" set as
+        phone ringtone.
+    </string>
     <!-- Context menu item -->
     <string name="play_selection">Play</string>
     <!-- Context menu item -->
@@ -201,13 +236,18 @@
     <!-- Context menu item -->
     <string name="new_playlist">New</string>
     <!-- Template for newly created playlist name -->
-    <string name="new_playlist_name_template">New playlist <xliff:g id="number">%d</xliff:g></string>
+    <string name="new_playlist_name_template">New playlist
+        <xliff:g id="number">%d</xliff:g>
+    </string>
     <!-- Toasts after adding song(s) to playlists -->
     <plurals name="NNNtrackstoplaylist">
         <!-- message shown when one song was added -->
         <item quantity="one">1 song added to playlist.</item>
         <!-- message shown when zero or more than one song was added -->
-        <item quantity="other"><xliff:g id="number" example="27">%d</xliff:g> songs added to playlist.</item>
+        <item quantity="other">
+            <xliff:g id="number" example="27">%d</xliff:g>
+            songs added to playlist.
+        </item>
     </plurals>
     <!-- Toast after selecting an empty playlist -->
     <string name="emptyplaylist">Selected playlist is empty.</string>
@@ -272,10 +312,14 @@
     <string name="remove_from_playlist">Remove from playlist</string>
 
     <!-- shown when connecting to a music stream, before it starts playing -->
-    <string name="streamloadingtext">Connecting to <xliff:g id="host">%s</xliff:g>\u2026</string>
+    <string name="streamloadingtext">Connecting to<xliff:g id="host">%s</xliff:g>\u2026
+    </string>
 
     <!-- title of contextual music search menu -->
-    <string name="mediasearch">Search for <xliff:g id="term" example="Beethoven">%s</xliff:g> using:</string>
+    <string name="mediasearch">Search for
+        <xliff:g id="term" example="Beethoven">%s</xliff:g>
+        using:
+    </string>
 
     <!-- Shown in the title bar while the list of artists is being retrieved in the background -->
     <string name="working_artists">Artists\u2026</string>
@@ -318,6 +362,6 @@
     <string name="repeatstr">TODO</string>
     <string name="shufflestr">TODO</string>
     <string name="dummystr">Dummy String</string>
-    <string name="artistalbumseperator"> - </string>
+    <string name="artistalbumseperator">-</string>
 </resources>
 

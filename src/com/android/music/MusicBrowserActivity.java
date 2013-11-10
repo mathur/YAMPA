@@ -16,18 +16,17 @@
 
 package com.android.music;
 
-import com.android.music.MusicUtils.ServiceToken;
-
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import com.android.music.MusicUtils.ServiceToken;
+
 public class MusicBrowserActivity extends Activity
-    implements MusicUtils.Defs {
+        implements MusicUtils.Defs {
 
     private ServiceToken mToken;
 
@@ -48,7 +47,7 @@ public class MusicBrowserActivity extends Activity
             activeTab = R.id.artisttab;
         }
         MusicUtils.activateTab(this, activeTab);
-        
+
         String shuf = getIntent().getStringExtra("autoshuffle");
         if ("true".equals(shuf)) {
             mToken = MusicUtils.bindToService(this, autoshuffle);

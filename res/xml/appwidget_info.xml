@@ -15,9 +15,9 @@
 -->
 
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="294dip"
-    android:minHeight="72dip"
-    android:updatePeriodMillis="0"
-    android:initialLayout="@layout/album_appwidget"
-    >
+                    android:minWidth="294dip"
+                    android:minHeight="72dip"
+                    android:updatePeriodMillis="0"
+                    android:initialLayout="@layout/album_appwidget"
+        >
 </appwidget-provider>

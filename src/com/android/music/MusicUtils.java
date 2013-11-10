@@ -95,7 +95,7 @@ public class MusicUtils {
         // There are two formats for the albums/songs information:
         // "N Song(s)"  - used for unknown artist/album
         // "N Album(s)" - used for known albums
-        
+
         StringBuilder songs_albums = new StringBuilder();
 
         Resources r = context.getResources();
@@ -128,14 +128,14 @@ public class MusicUtils {
         // "1 Album"/"N Songs" 
         // "N Album"/"M Songs"
         // Depending on locale, these may need to be further subdivided
-        
+
         StringBuilder songs_albums = new StringBuilder();
 
         if (numsongs == 1) {
             songs_albums.append(context.getString(R.string.onesong));
         } else {
             Resources r = context.getResources();
-            if (! isUnknown) {
+            if (!isUnknown) {
                 String f = r.getQuantityText(R.plurals.Nalbums, numalbums).toString();
                 sFormatBuilder.setLength(0);
                 sFormatter.format(f, Integer.valueOf(numalbums));
@@ -149,12 +149,13 @@ public class MusicUtils {
         }
         return songs_albums.toString();
     }
-    
+
     public static IMediaPlaybackService sService = null;
     private static HashMap<Context, ServiceBinder> sConnectionMap = new HashMap<Context, ServiceBinder>();
 
     public static class ServiceToken {
         ContextWrapper mWrappedContext;
+
         ServiceToken(ContextWrapper context) {
             mWrappedContext = context;
         }
@@ -201,10 +202,11 @@ public class MusicUtils {
 
     private static class ServiceBinder implements ServiceConnection {
         ServiceConnection mCallback;
+
         ServiceBinder(ServiceConnection callback) {
             mCallback = callback;
         }
-        
+
         public void onServiceConnected(ComponentName className, android.os.IBinder service) {
             sService = IMediaPlaybackService.Stub.asInterface(service);
             initAlbumArtCache();
@@ -212,7 +214,7 @@ public class MusicUtils {
                 mCallback.onServiceConnected(className, service);
             }
         }
-        
+
         public void onServiceDisconnected(ComponentName className) {
             if (mCallback != null) {
                 mCallback.onServiceDisconnected(className);
@@ -220,7 +222,7 @@ public class MusicUtils {
             sService = null;
         }
     }
-    
+
     public static long getCurrentAlbumId() {
         if (sService != null) {
             try {
@@ -250,7 +252,7 @@ public class MusicUtils {
         }
         return -1;
     }
-    
+
     public static int getCurrentShuffleMode() {
         int mode = MediaPlaybackService.SHUFFLE_NONE;
         if (sService != null) {
@@ -261,7 +263,7 @@ public class MusicUtils {
         }
         return mode;
     }
-    
+
     public static void togglePartyShuffle() {
         if (sService != null) {
             int shuffle = getCurrentShuffleMode();
@@ -275,7 +277,7 @@ public class MusicUtils {
             }
         }
     }
-    
+
     public static void setPartyShuffleMenuIcon(Menu menu) {
         MenuItem item = menu.findItem(Defs.PARTY_SHUFFLE);
         if (item != null) {
@@ -289,7 +291,7 @@ public class MusicUtils {
             }
         }
     }
-    
+
     /*
      * Returns true if a file is currently opened for playback (regardless
      * of whether it's playing or paused).
@@ -304,14 +306,14 @@ public class MusicUtils {
         return false;
     }
 
-    private final static long [] sEmptyList = new long[0];
+    private final static long[] sEmptyList = new long[0];
 
-    public static long [] getSongListForCursor(Cursor cursor) {
+    public static long[] getSongListForCursor(Cursor cursor) {
         if (cursor == null) {
             return sEmptyList;
         }
         int len = cursor.getCount();
-        long [] list = new long[len];
+        long[] list = new long[len];
         cursor.moveToFirst();
         int colidx = -1;
         try {
@@ -326,67 +328,67 @@ public class MusicUtils {
         return list;
     }
 
-    public static long [] getSongListForArtist(Context context, long id) {
-        final String[] ccols = new String[] { MediaStore.Audio.Media._ID };
-        String where = MediaStore.Audio.Media.ARTIST_ID + "=" + id + " AND " + 
-        MediaStore.Audio.Media.IS_MUSIC + "=1";
+    public static long[] getSongListForArtist(Context context, long id) {
+        final String[] ccols = new String[]{MediaStore.Audio.Media._ID};
+        String where = MediaStore.Audio.Media.ARTIST_ID + "=" + id + " AND " +
+                MediaStore.Audio.Media.IS_MUSIC + "=1";
         Cursor cursor = query(context, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 ccols, where, null,
-                MediaStore.Audio.Media.ALBUM_KEY + ","  + MediaStore.Audio.Media.TRACK);
-        
+                MediaStore.Audio.Media.ALBUM_KEY + "," + MediaStore.Audio.Media.TRACK);
+
         if (cursor != null) {
-            long [] list = getSongListForCursor(cursor);
+            long[] list = getSongListForCursor(cursor);
             cursor.close();
             return list;
         }
         return sEmptyList;
     }
 
-    public static long [] getSongListForAlbum(Context context, long id) {
-        final String[] ccols = new String[] { MediaStore.Audio.Media._ID };
-        String where = MediaStore.Audio.Media.ALBUM_ID + "=" + id + " AND " + 
+    public static long[] getSongListForAlbum(Context context, long id) {
+        final String[] ccols = new String[]{MediaStore.Audio.Media._ID};
+        String where = MediaStore.Audio.Media.ALBUM_ID + "=" + id + " AND " +
                 MediaStore.Audio.Media.IS_MUSIC + "=1";
         Cursor cursor = query(context, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 ccols, where, null, MediaStore.Audio.Media.TRACK);
 
         if (cursor != null) {
-            long [] list = getSongListForCursor(cursor);
+            long[] list = getSongListForCursor(cursor);
             cursor.close();
             return list;
         }
         return sEmptyList;
     }
 
-    public static long [] getSongListForPlaylist(Context context, long plid) {
-        final String[] ccols = new String[] { MediaStore.Audio.Playlists.Members.AUDIO_ID };
+    public static long[] getSongListForPlaylist(Context context, long plid) {
+        final String[] ccols = new String[]{MediaStore.Audio.Playlists.Members.AUDIO_ID};
         Cursor cursor = query(context, MediaStore.Audio.Playlists.Members.getContentUri("external", plid),
                 ccols, null, null, MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER);
-        
+
         if (cursor != null) {
-            long [] list = getSongListForCursor(cursor);
+            long[] list = getSongListForCursor(cursor);
             cursor.close();
             return list;
         }
         return sEmptyList;
     }
-    
+
     public static void playPlaylist(Context context, long plid) {
-        long [] list = getSongListForPlaylist(context, plid);
+        long[] list = getSongListForPlaylist(context, plid);
         if (list != null) {
             playAll(context, list, -1, false);
         }
     }
 
-    public static long [] getAllSongs(Context context) {
+    public static long[] getAllSongs(Context context) {
         Cursor c = query(context, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                new String[] {MediaStore.Audio.Media._ID}, MediaStore.Audio.Media.IS_MUSIC + "=1",
+                new String[]{MediaStore.Audio.Media._ID}, MediaStore.Audio.Media.IS_MUSIC + "=1",
                 null, null);
         try {
             if (c == null || c.getCount() == 0) {
                 return null;
             }
             int len = c.getCount();
-            long [] list = new long[len];
+            long[] list = new long[len];
             for (int i = 0; i < len; i++) {
                 c.moveToNext();
                 list[i] = c.getLong(0);
@@ -407,11 +409,12 @@ public class MusicUtils {
      * the selected playlist, NEW_PLAYLIST if a new playlist
      * should be created, and QUEUE if the "current playlist" was
      * selected.
+     *
      * @param context The context to use for creating the menu items
-     * @param sub The submenu to add the items to.
+     * @param sub     The submenu to add the items to.
      */
     public static void makePlaylistMenu(Context context, SubMenu sub) {
-        String[] cols = new String[] {
+        String[] cols = new String[]{
                 MediaStore.Audio.Playlists._ID,
                 MediaStore.Audio.Playlists.NAME
         };
@@ -421,21 +424,21 @@ public class MusicUtils {
         } else {
             String whereclause = MediaStore.Audio.Playlists.NAME + " != ''";
             Cursor cur = resolver.query(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI,
-                cols, whereclause, null,
-                MediaStore.Audio.Playlists.NAME);
+                    cols, whereclause, null,
+                    MediaStore.Audio.Playlists.NAME);
             sub.clear();
             sub.add(1, Defs.QUEUE, 0, R.string.queue);
             sub.add(1, Defs.NEW_PLAYLIST, 0, R.string.new_playlist);
             if (cur != null && cur.getCount() > 0) {
                 //sub.addSeparator(1, 0);
                 cur.moveToFirst();
-                while (! cur.isAfterLast()) {
+                while (!cur.isAfterLast()) {
                     Intent intent = new Intent();
                     intent.putExtra("playlist", cur.getLong(0));
 //                    if (cur.getInt(0) == mLastPlaylistSelected) {
 //                        sub.add(0, MusicBaseActivity.PLAYLIST_SELECTED, cur.getString(1)).setIntent(intent);
 //                    } else {
-                        sub.add(1, Defs.PLAYLIST_SELECTED, 0, cur.getString(1)).setIntent(intent);
+                    sub.add(1, Defs.PLAYLIST_SELECTED, 0, cur.getString(1)).setIntent(intent);
 //                    }
                     cur.moveToNext();
                 }
@@ -447,16 +450,16 @@ public class MusicUtils {
     }
 
     public static void clearPlaylist(Context context, int plid) {
-        
+
         Uri uri = MediaStore.Audio.Playlists.Members.getContentUri("external", plid);
         context.getContentResolver().delete(uri, null, null);
         return;
     }
-    
-    public static void deleteTracks(Context context, long [] list) {
-        
-        String [] cols = new String [] { MediaStore.Audio.Media._ID, 
-                MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID };
+
+    public static void deleteTracks(Context context, long[] list) {
+
+        String[] cols = new String[]{MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID};
         StringBuilder where = new StringBuilder();
         where.append(MediaStore.Audio.Media._ID + " IN (");
         for (int i = 0; i < list.length; i++) {
@@ -475,13 +478,13 @@ public class MusicUtils {
             // as from the album art cache
             try {
                 c.moveToFirst();
-                while (! c.isAfterLast()) {
+                while (!c.isAfterLast()) {
                     // remove from current playlist
                     long id = c.getLong(0);
                     sService.removeTrack(id);
                     // remove from album art cache
                     long artIndex = c.getLong(2);
-                    synchronized(sArtCache) {
+                    synchronized (sArtCache) {
                         sArtCache.remove(artIndex);
                     }
                     c.moveToNext();
@@ -494,7 +497,7 @@ public class MusicUtils {
 
             // step 3: remove files from card
             c.moveToFirst();
-            while (! c.isAfterLast()) {
+            while (!c.isAfterLast()) {
                 String name = c.getString(1);
                 File f = new File(name);
                 try {  // File.delete can throw a security exception
@@ -513,14 +516,14 @@ public class MusicUtils {
 
         String message = context.getResources().getQuantityString(
                 R.plurals.NNNtracksdeleted, list.length, Integer.valueOf(list.length));
-        
+
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         // We deleted a number of tracks, which could affect any number of things
         // in the media content domain, so update everything.
         context.getContentResolver().notifyChange(Uri.parse("content://media"), null);
     }
-    
-    public static void addToCurrentPlaylist(Context context, long [] list) {
+
+    public static void addToCurrentPlaylist(Context context, long[] list) {
         if (sService == null) {
             return;
         }
@@ -536,10 +539,10 @@ public class MusicUtils {
     private static ContentValues[] sContentValuesCache = null;
 
     /**
-     * @param ids The source array containing all the ids to be added to the playlist
+     * @param ids    The source array containing all the ids to be added to the playlist
      * @param offset Where in the 'ids' array we start reading
-     * @param len How many items to copy during this pass
-     * @param base The play order offset to use for this pass
+     * @param len    How many items to copy during this pass
+     * @param base   The play order offset to use for this pass
      */
     private static void makeInsertItems(long[] ids, int offset, int len, int base) {
         // adjust 'len' if would extend beyond the end of the source array
@@ -560,8 +563,8 @@ public class MusicUtils {
             sContentValuesCache[i].put(MediaStore.Audio.Playlists.Members.AUDIO_ID, ids[offset + i]);
         }
     }
-    
-    public static void addToPlaylist(Context context, long [] ids, long playlistid) {
+
+    public static void addToPlaylist(Context context, long[] ids, long playlistid) {
         if (ids == null) {
             // this shouldn't happen (the menuitems shouldn't be visible
             // unless the selected item represents something playable
@@ -571,7 +574,7 @@ public class MusicUtils {
             ContentResolver resolver = context.getContentResolver();
             // need to determine the number of items currently in the playlist,
             // so the play_order field can be maintained.
-            String[] cols = new String[] {
+            String[] cols = new String[]{
                     "count(*)"
             };
             Uri uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistid);
@@ -592,7 +595,7 @@ public class MusicUtils {
     }
 
     public static Cursor query(Context context, Uri uri, String[] projection,
-            String selection, String[] selectionArgs, String sortOrder, int limit) {
+                               String selection, String[] selectionArgs, String sortOrder, int limit) {
         try {
             ContentResolver resolver = context.getContentResolver();
             if (resolver == null) {
@@ -602,31 +605,32 @@ public class MusicUtils {
                 uri = uri.buildUpon().appendQueryParameter("limit", "" + limit).build();
             }
             return resolver.query(uri, projection, selection, selectionArgs, sortOrder);
-         } catch (UnsupportedOperationException ex) {
+        } catch (UnsupportedOperationException ex) {
             return null;
         }
-        
+
     }
+
     public static Cursor query(Context context, Uri uri, String[] projection,
-            String selection, String[] selectionArgs, String sortOrder) {
+                               String selection, String[] selectionArgs, String sortOrder) {
         return query(context, uri, projection, selection, selectionArgs, sortOrder, 0);
     }
-    
+
     public static boolean isMediaScannerScanning(Context context) {
         boolean result = false;
-        Cursor cursor = query(context, MediaStore.getMediaScannerUri(), 
-                new String [] { MediaStore.MEDIA_SCANNER_VOLUME }, null, null, null);
+        Cursor cursor = query(context, MediaStore.getMediaScannerUri(),
+                new String[]{MediaStore.MEDIA_SCANNER_VOLUME}, null, null, null);
         if (cursor != null) {
             if (cursor.getCount() == 1) {
                 cursor.moveToFirst();
                 result = "external".equals(cursor.getString(0));
             }
-            cursor.close(); 
-        } 
+            cursor.close();
+        }
 
         return result;
     }
-    
+
     public static void setSpinnerState(Activity a) {
         if (isMediaScannerScanning(a)) {
             // start the progress spinner
@@ -644,7 +648,7 @@ public class MusicUtils {
                     Window.PROGRESS_VISIBILITY_OFF);
         }
     }
-    
+
     private static String mLastSdStatus;
 
     public static void displayDatabaseError(Activity a) {
@@ -665,7 +669,7 @@ public class MusicUtils {
             title = R.string.sdcard_error_title_nosdcard;
             message = R.string.sdcard_error_message_nosdcard;
         }
-        
+
         if (status.equals(Environment.MEDIA_SHARED) ||
                 status.equals(Environment.MEDIA_UNMOUNTED)) {
             if (android.os.Environment.isExternalStorageRemovable()) {
@@ -683,7 +687,7 @@ public class MusicUtils {
                 title = R.string.sdcard_missing_title_nosdcard;
                 message = R.string.sdcard_missing_message_nosdcard;
             }
-        } else if (status.equals(Environment.MEDIA_MOUNTED)){
+        } else if (status.equals(Environment.MEDIA_MOUNTED)) {
             // The card is mounted, but we didn't get a valid cursor.
             // This probably means the mediascanner hasn't started scanning the
             // card yet (there is a small window of time during boot where this
@@ -717,7 +721,7 @@ public class MusicUtils {
         TextView tv = (TextView) a.findViewById(R.id.sd_message);
         tv.setText(message);
     }
-    
+
     public static void hideDatabaseError(Activity a) {
         View v = a.findViewById(R.id.sd_message);
         if (v != null) {
@@ -737,7 +741,7 @@ public class MusicUtils {
         return Uri.fromFile(new File(path));
     }
 
-    
+
     /*  Try to use String.format() as little as possible, because it creates a
      *  new Formatter every time you call it, which is very inefficient.
      *  Reusing an existing Formatter more than tripled the speed of
@@ -766,7 +770,7 @@ public class MusicUtils {
 
         return sFormatter.format(durationformat, timeArgs).toString();
     }
-    
+
     public static void shuffleAll(Context context, Cursor cursor) {
         playAll(context, cursor, 0, true);
     }
@@ -774,22 +778,22 @@ public class MusicUtils {
     public static void playAll(Context context, Cursor cursor) {
         playAll(context, cursor, 0, false);
     }
-    
+
     public static void playAll(Context context, Cursor cursor, int position) {
         playAll(context, cursor, position, false);
     }
-    
-    public static void playAll(Context context, long [] list, int position) {
+
+    public static void playAll(Context context, long[] list, int position) {
         playAll(context, list, position, false);
     }
-    
+
     private static void playAll(Context context, Cursor cursor, int position, boolean force_shuffle) {
-    
-        long [] list = getSongListForCursor(cursor);
+
+        long[] list = getSongListForCursor(cursor);
         playAll(context, list, position, force_shuffle);
     }
-    
-    private static void playAll(Context context, long [] list, int position, boolean force_shuffle) {
+
+    private static void playAll(Context context, long[] list, int position, boolean force_shuffle) {
         if (list.length == 0 || sService == null) {
             Log.d("MusicUtils", "attempt to play empty song list");
             // Don't try to play empty playlists. Nothing good will come of it.
@@ -807,7 +811,7 @@ public class MusicUtils {
                 // The selected file is the file that's currently playing;
                 // figure out if we need to restart with a new playlist,
                 // or just launch the playback activity.
-                long [] playlist = sService.getQueue();
+                long[] playlist = sService.getQueue();
                 if (Arrays.equals(list, playlist)) {
                     // we don't need to set a new list, but we should resume playback if needed
                     sService.play();
@@ -822,41 +826,46 @@ public class MusicUtils {
         } catch (RemoteException ex) {
         } finally {
             Intent intent = new Intent("com.android.music.PLAYBACK_VIEWER")
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }
     }
-    
+
     public static void clearQueue() {
         try {
             sService.removeTracks(0, Integer.MAX_VALUE);
         } catch (RemoteException ex) {
         }
     }
-    
+
     // A really simple BitmapDrawable-like class, that doesn't do
     // scaling, dithering or filtering.
     private static class FastBitmapDrawable extends Drawable {
         private Bitmap mBitmap;
+
         public FastBitmapDrawable(Bitmap b) {
             mBitmap = b;
         }
+
         @Override
         public void draw(Canvas canvas) {
             canvas.drawBitmap(mBitmap, 0, 0, null);
         }
+
         @Override
         public int getOpacity() {
             return PixelFormat.OPAQUE;
         }
+
         @Override
         public void setAlpha(int alpha) {
         }
+
         @Override
         public void setColorFilter(ColorFilter cf) {
         }
     }
-    
+
     private static int sArtId = -2;
     private static Bitmap mCachedBit = null;
     private static final BitmapFactory.Options sBitmapOptionsCache = new BitmapFactory.Options();
@@ -864,7 +873,7 @@ public class MusicUtils {
     private static final Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
     private static final HashMap<Long, Drawable> sArtCache = new HashMap<Long, Drawable>();
     private static int sArtCacheId = -1;
-    
+
     static {
         // for the cache, 
         // 565 is faster to decode and display
@@ -881,7 +890,7 @@ public class MusicUtils {
             int id = sService.getMediaMountedCount();
             if (id != sArtCacheId) {
                 clearAlbumArtCache();
-                sArtCacheId = id; 
+                sArtCacheId = id;
             }
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -889,14 +898,14 @@ public class MusicUtils {
     }
 
     public static void clearAlbumArtCache() {
-        synchronized(sArtCache) {
+        synchronized (sArtCache) {
             sArtCache.clear();
         }
     }
-    
+
     public static Drawable getCachedArtwork(Context context, long artIndex, BitmapDrawable defaultArtwork) {
         Drawable d = null;
-        synchronized(sArtCache) {
+        synchronized (sArtCache) {
             d = sArtCache.get(artIndex);
         }
         if (d == null) {
@@ -907,7 +916,7 @@ public class MusicUtils {
             Bitmap b = MusicUtils.getArtworkQuick(context, artIndex, w, h);
             if (b != null) {
                 d = new FastBitmapDrawable(b);
-                synchronized(sArtCache) {
+                synchronized (sArtCache) {
                     // the cache may have changed since we checked
                     Drawable value = sArtCache.get(artIndex);
                     if (value == null) {
@@ -936,7 +945,7 @@ public class MusicUtils {
             try {
                 fd = res.openFileDescriptor(uri, "r");
                 int sampleSize = 1;
-                
+
                 // Compute the closest power-of-two scale factor 
                 // and pass that to sBitmapOptionsCache.inSampleSize, which will
                 // result in faster decoding and better quality
@@ -945,7 +954,7 @@ public class MusicUtils {
                         fd.getFileDescriptor(), null, sBitmapOptionsCache);
                 int nextWidth = sBitmapOptionsCache.outWidth >> 1;
                 int nextHeight = sBitmapOptionsCache.outHeight >> 1;
-                while (nextWidth>w && nextHeight>h) {
+                while (nextWidth > w && nextHeight > h) {
                     sampleSize <<= 1;
                     nextWidth >>= 1;
                     nextHeight >>= 1;
@@ -965,7 +974,7 @@ public class MusicUtils {
                         b = tmp;
                     }
                 }
-                
+
                 return b;
             } catch (FileNotFoundException e) {
             } finally {
@@ -979,7 +988,8 @@ public class MusicUtils {
         return null;
     }
 
-    /** Get album art for specified album. You should not pass in the album id
+    /**
+     * Get album art for specified album. You should not pass in the album id
      * for the "unknown" album here (use -1 instead)
      * This method always returns the default album art icon when no album art is found.
      */
@@ -987,11 +997,12 @@ public class MusicUtils {
         return getArtwork(context, song_id, album_id, true);
     }
 
-    /** Get album art for specified album. You should not pass in the album id
+    /**
+     * Get album art for specified album. You should not pass in the album id
      * for the "unknown" album here (use -1 instead)
      */
     public static Bitmap getArtwork(Context context, long song_id, long album_id,
-            boolean allowdefault) {
+                                    boolean allowdefault) {
 
         if (album_id < 0) {
             // This is something that is not in the database, so get the album art directly
@@ -1039,15 +1050,16 @@ public class MusicUtils {
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     // get album art for specified file
     private static final String sExternalMediaUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString();
+
     private static Bitmap getArtworkFromFile(Context context, long songid, long albumid) {
         Bitmap bm = null;
-        byte [] art = null;
+        byte[] art = null;
         String path = null;
 
         if (albumid < 0 && songid < 0) {
@@ -1078,23 +1090,23 @@ public class MusicUtils {
         }
         return bm;
     }
-    
+
     private static Bitmap getDefaultArtwork(Context context) {
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
         return BitmapFactory.decodeStream(
                 context.getResources().openRawResource(R.drawable.albumart_mp_unknown), null, opts);
     }
-    
+
     static int getIntPref(Context context, String name, int def) {
         SharedPreferences prefs =
-            context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+                context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         return prefs.getInt(name, def);
     }
-    
+
     static void setIntPref(Context context, String name, int value) {
         SharedPreferences prefs =
-            context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+                context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         Editor ed = prefs.edit();
         ed.putInt(name, value);
         SharedPreferencesCompat.apply(ed);
@@ -1115,7 +1127,7 @@ public class MusicUtils {
             return;
         }
 
-        String[] cols = new String[] {
+        String[] cols = new String[]{
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.TITLE
@@ -1123,7 +1135,7 @@ public class MusicUtils {
 
         String where = MediaStore.Audio.Media._ID + "=" + id;
         Cursor cursor = query(context, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                cols, where , null, null);
+                cols, where, null, null);
         try {
             if (cursor != null && cursor.getCount() == 1) {
                 // Set the system setting to make this the current ringtone
@@ -1138,9 +1150,9 @@ public class MusicUtils {
             }
         }
     }
-    
+
     static int sActiveTabIndex = -1;
-    
+
     static boolean updateButtonBar(Activity a, int highlight) {
         final TabWidget ll = (TabWidget) a.findViewById(R.id.buttonbar);
         boolean withtabs = false;
@@ -1148,7 +1160,7 @@ public class MusicUtils {
         if (intent != null) {
             withtabs = intent.getBooleanExtra("withtabs", false);
         }
-        
+
         if (highlight == 0 || !withtabs) {
             ll.setVisibility(View.GONE);
             return withtabs;
@@ -1156,7 +1168,7 @@ public class MusicUtils {
             ll.setVisibility(View.VISIBLE);
         }
         for (int i = ll.getChildCount() - 1; i >= 0; i--) {
-            
+
             View v = ll.getChildAt(i);
             boolean isActive = (v.getId() == highlight);
             if (isActive) {
@@ -1171,18 +1183,20 @@ public class MusicUtils {
                         for (int i = 0; i < ll.getTabCount(); i++) {
                             if (ll.getChildTabViewAt(i) == v) {
                                 ll.setCurrentTab(i);
-                                processTabClick((Activity)ll.getContext(), v, ll.getChildAt(sActiveTabIndex).getId());
+                                processTabClick((Activity) ll.getContext(), v, ll.getChildAt(sActiveTabIndex).getId());
                                 break;
                             }
                         }
                     }
-                }});
-            
+                }
+            });
+
             v.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
-                    processTabClick((Activity)ll.getContext(), v, ll.getChildAt(sActiveTabIndex).getId());
-                }});
+                    processTabClick((Activity) ll.getContext(), v, ll.getChildAt(sActiveTabIndex).getId());
+                }
+            });
         }
         return withtabs;
     }
@@ -1201,7 +1215,7 @@ public class MusicUtils {
             setIntPref(a, "activetab", id);
         }
     }
-    
+
     static void activateTab(Activity a, int id) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         switch (id) {
@@ -1230,7 +1244,7 @@ public class MusicUtils {
         a.finish();
         a.overridePendingTransition(0, 0);
     }
-    
+
     static void updateNowPlaying(Activity a) {
         View nowPlayingView = a.findViewById(R.id.nowplaying);
         if (nowPlayingView == null) {
@@ -1259,7 +1273,8 @@ public class MusicUtils {
                     public void onClick(View v) {
                         Context c = v.getContext();
                         c.startActivity(new Intent(c, MediaPlaybackActivity.class));
-                    }});
+                    }
+                });
                 return;
             }
         } catch (RemoteException ex) {
@@ -1296,10 +1311,10 @@ public class MusicUtils {
         ColorFilter filter = new ColorMatrixColorFilter(greymatrix);
         paint.setColorFilter(filter);
         Matrix matrix = new Matrix();
-        matrix.setTranslate(-bwidth/2, -bheight/2); // move bitmap center to origin
+        matrix.setTranslate(-bwidth / 2, -bheight / 2); // move bitmap center to origin
         matrix.postRotate(10);
         matrix.postScale(scale, scale);
-        matrix.postTranslate(vwidth/2, vheight/2);  // Move bitmap center to view center
+        matrix.postTranslate(vwidth / 2, vheight / 2);  // Move bitmap center to view center
         c.drawBitmap(bm, matrix, paint);
         v.setBackgroundDrawable(new BitmapDrawable(bg));
     }
@@ -1329,7 +1344,7 @@ public class MusicUtils {
             sTime.set(time);
             out.print(sTime.toString() + " : ");
             if (item instanceof Exception) {
-                ((Exception)item).printStackTrace(out);
+                ((Exception) item).printStackTrace(out);
             } else {
                 out.println(item);
             }

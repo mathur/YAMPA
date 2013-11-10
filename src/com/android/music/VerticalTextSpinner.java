@@ -21,10 +21,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -100,13 +98,13 @@ public class VerticalTextSpinner extends View {
     }
 
     public VerticalTextSpinner(Context context, AttributeSet attrs,
-            int defStyle) {
+                               int defStyle) {
         super(context, attrs, defStyle);
 
         float scale = getResources().getDisplayMetrics().density;
-        TEXT_SPACING = (int)(18 * scale);
-        TEXT_MARGIN_RIGHT = (int)(25 * scale);
-        TEXT_SIZE = (int)(22 * scale);
+        TEXT_SPACING = (int) (18 * scale);
+        TEXT_MARGIN_RIGHT = (int) (25 * scale);
+        TEXT_SIZE = (int) (22 * scale);
         SCROLL_DISTANCE = TEXT_SIZE + TEXT_SPACING;
         TEXT1_Y = (TEXT_SIZE * (-2 + 2)) + (TEXT_SPACING * (-2 + 1));
         TEXT2_Y = (TEXT_SIZE * (-1 + 2)) + (TEXT_SPACING * (-1 + 1));
@@ -129,12 +127,12 @@ public class VerticalTextSpinner extends View {
         mTextPaintDark = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         mTextPaintDark.setTextSize(TEXT_SIZE);
         mTextPaintDark.setColor(context.getResources()
-            .getColor(android.R.color.primary_text_light));
+                .getColor(android.R.color.primary_text_light));
 
         mTextPaintLight = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         mTextPaintLight.setTextSize(TEXT_SIZE);
         mTextPaintLight.setColor(context.getResources()
-            .getColor(android.R.color.secondary_text_dark));
+                .getColor(android.R.color.secondary_text_dark));
 
         mScrollMode = SCROLL_MODE_NONE;
         mScrollInterval = DEFAULT_SCROLL_INTERVAL_MS;
@@ -196,7 +194,7 @@ public class VerticalTextSpinner extends View {
 
     @Override
     protected void onFocusChanged(boolean gainFocus, int direction,
-            Rect previouslyFocusedRect) {
+                                  Rect previouslyFocusedRect) {
         if (gainFocus) {
             setBackgroundDrawable(mBackgroundFocused);
             mSelector = mSelectorFocused;
@@ -213,44 +211,44 @@ public class VerticalTextSpinner extends View {
         final int y = (int) event.getY();
 
         switch (action) {
-        case MotionEvent.ACTION_DOWN:
-            requestFocus();
-            mDownY = y;
-            isDraggingSelector = (y >= mSelectorY) &&
-                    (y <= (mSelectorY + mSelector.getIntrinsicHeight()));
-            break;
+            case MotionEvent.ACTION_DOWN:
+                requestFocus();
+                mDownY = y;
+                isDraggingSelector = (y >= mSelectorY) &&
+                        (y <= (mSelectorY + mSelector.getIntrinsicHeight()));
+                break;
 
-        case MotionEvent.ACTION_MOVE:
-            if (isDraggingSelector) {
-                int top = mSelectorDefaultY + (y - mDownY);
-                if (top <= mSelectorMinY && canScrollDown()) {
-                    mSelectorY = mSelectorMinY;
-                    mStopAnimation = false;
-                    if (mScrollMode != SCROLL_MODE_DOWN) {
-                        mScrollMode = SCROLL_MODE_DOWN;
-                        scroll();
+            case MotionEvent.ACTION_MOVE:
+                if (isDraggingSelector) {
+                    int top = mSelectorDefaultY + (y - mDownY);
+                    if (top <= mSelectorMinY && canScrollDown()) {
+                        mSelectorY = mSelectorMinY;
+                        mStopAnimation = false;
+                        if (mScrollMode != SCROLL_MODE_DOWN) {
+                            mScrollMode = SCROLL_MODE_DOWN;
+                            scroll();
+                        }
+                    } else if (top >= mSelectorMaxY && canScrollUp()) {
+                        mSelectorY = mSelectorMaxY;
+                        mStopAnimation = false;
+                        if (mScrollMode != SCROLL_MODE_UP) {
+                            mScrollMode = SCROLL_MODE_UP;
+                            scroll();
+                        }
+                    } else {
+                        mSelectorY = top;
+                        mStopAnimation = true;
                     }
-                } else if (top >= mSelectorMaxY && canScrollUp()) {
-                    mSelectorY = mSelectorMaxY;
-                    mStopAnimation = false;
-                    if (mScrollMode != SCROLL_MODE_UP) {
-                        mScrollMode = SCROLL_MODE_UP;
-                        scroll();
-                    }
-                } else {
-                    mSelectorY = top;
-                    mStopAnimation = true;
                 }
-            }
-            break;
+                break;
 
-        case MotionEvent.ACTION_UP:
-        case MotionEvent.ACTION_CANCEL:
-        default:
-            mSelectorY = mSelectorDefaultY;
-            mStopAnimation = true;
-            invalidate();
-            break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+            default:
+                mSelectorY = mSelectorDefaultY;
+                mStopAnimation = true;
+                invalidate();
+                break;
         }
         return true;
     }
@@ -387,9 +385,9 @@ public class VerticalTextSpinner extends View {
                      * scroll past it.
                      */
                     if ("".equals(mTextList[mCurrentSelectedPos])) {
-                       mScrollMode = previousScrollMode;
-                       scroll();
-                       mStopAnimation = true;
+                        mScrollMode = previousScrollMode;
+                        scroll();
+                        mStopAnimation = true;
                     }
                 }
             } else {

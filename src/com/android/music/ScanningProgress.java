@@ -27,13 +27,11 @@ import android.provider.MediaStore;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class ScanningProgress extends Activity
-{
+public class ScanningProgress extends Activity {
     private final static int CHECK = 0;
     private Handler mHandler = new Handler() {
         @Override
-        public void handleMessage(Message msg)
-        {
+        public void handleMessage(Message msg) {
             if (msg.what == CHECK) {
                 String status = Environment.getExternalStorageState();
                 if (!status.equals(Environment.MEDIA_MOUNTED)) {
@@ -71,13 +69,13 @@ public class ScanningProgress extends Activity
             setContentView(R.layout.scanning_nosdcard);
         }
         getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT,
-                                    WindowManager.LayoutParams.WRAP_CONTENT);
+                WindowManager.LayoutParams.WRAP_CONTENT);
         setResult(RESULT_CANCELED);
-        
+
         Message msg = mHandler.obtainMessage(CHECK);
         mHandler.sendMessageDelayed(msg, 1000);
     }
-    
+
     @Override
     public void onDestroy() {
         mHandler.removeMessages(CHECK);
