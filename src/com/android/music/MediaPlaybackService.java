@@ -754,14 +754,37 @@ public class MediaPlaybackService extends Service {
                     if (action.equals(Intent.ACTION_MEDIA_EJECT)) {
                         saveQueue(true);
                         mQueueIsSaveable = false;
-                        closeExternalStorageFiles(intent.getData().getPath());
+			if (mFileToPlay != null) {
+				int id = Integer.parseInt(Uri.parse(mFileToPlay).getPathSegments().get(3));
+	        	       	id = (id >> 16);
+				if ((intent.getData().getPath().equals("/mnt/sdcard/udisk") && (id == 2))
+					|| (intent.getData().getPath().equals("/mnt/sdcard/extsd") && (id == 1)))
+                        		closeExternalStorageFiles(intent.getData().getPath());
+			}
+			else
+				closeExternalStorageFiles(intent.getData().getPath());
                     } else if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
-                        mMediaMountedCount++;
-                        mCardId = MusicUtils.getCardId(MediaPlaybackService.this);
-                        reloadQueue();
-                        mQueueIsSaveable = true;
-                        notifyChange(QUEUE_CHANGED);
-                        notifyChange(META_CHANGED);
+			if (mFileToPlay != null) {
+				int id = Integer.parseInt(Uri.parse(mFileToPlay).getPathSegments().get(3));
+                	        id = (id >> 16);
+        		       	if ((intent.getData().getPath().equals("/mnt/sdcard/udisk") && (id == 2))
+                                	|| (intent.getData().getPath().equals("/mnt/sdcard/extsd") && (id == 1))){
+                        		mMediaMountedCount++;
+                        		mCardId = MusicUtils.getCardId(MediaPlaybackService.this);
+                	        	reloadQueue();
+                        		mQueueIsSaveable = true;
+                        		notifyChange(QUEUE_CHANGED);
+                  		      	notifyChange(META_CHANGED);
+				}
+			}
+			else {
+				mMediaMountedCount++;
+                                mCardId = MusicUtils.getCardId(MediaPlaybackService.this);
+                                reloadQueue();
+                                mQueueIsSaveable = true;
+                                notifyChange(QUEUE_CHANGED);
+                                notifyChange(META_CHANGED);
+			}
                     }
                 }
             };
