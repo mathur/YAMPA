@@ -314,12 +314,12 @@ public class AudioPreview extends Activity implements OnPreparedListener, OnErro
     }
     
     private void updatePlayPause() {
-        ImageButton b = (ImageButton) findViewById(R.id.playpause);
+		ImageButton b = (ImageButton) findViewById(R.id.playpause);
         if (b != null) {
             if (mPlayer.isPlaying()) {
-                b.setImageResource(R.drawable.btn_playback_ic_pause_small);
+                b.setImageResource(R.drawable.ic_pause);
             } else {
-                b.setImageResource(R.drawable.btn_playback_ic_play_small);
+                b.setImageResource(R.drawable.ic_play);
                 mProgressRefresher.removeCallbacksAndMessages(null);
             }
         }

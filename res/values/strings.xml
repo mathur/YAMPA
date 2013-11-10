@@ -311,5 +311,13 @@
 
     <!-- Menu text for the item controlling the audio effects panel [CHAR LIMIT=15] -->
     <string name="effectspanel">Sound effects</string>
+    <string name="albumartstr">album art</string>
+    <string name="albumiconstr">album icon</string>
+    <string name="albuminfostr">TODO</string>
+    <string name="curplayliststr">TODO</string>
+    <string name="repeatstr">TODO</string>
+    <string name="shufflestr">TODO</string>
+    <string name="dummystr">Dummy String</string>
+    <string name="artistalbumseperator"> - </string>
 </resources>
 

@@ -30,7 +30,7 @@
         <com.android.music.RepeatingImageButton
             android:id="@+id/prev_album"
             style="@android:style/MediaButton.Next"
-            android:layout_width="0dip"
+            android:layout_width="65dip"
             android:layout_height="65dip"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -71,7 +71,7 @@
         <com.android.music.RepeatingImageButton
             android:id="@+id/next_album"
             style="@android:style/MediaButton.Next"
-            android:layout_width="0dip"
+            android:layout_width="65dip"
             android:layout_height="65dip"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
