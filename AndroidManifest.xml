@@ -136,6 +136,7 @@
                 <data android:mimeType="application/ogg"/>
                 <data android:mimeType="application/x-ogg"/>
                 <data android:mimeType="application/itunes"/>
+                <data android:mimeType="audio/x-ms-wma"/>
             </intent-filter>
         </activity>
 
